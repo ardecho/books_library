@@ -71,7 +71,12 @@ def bookList():
 #     return render_template('results.html', entries=entries)
 
 #-----------------------------------------------------------------------------------------------
-@app.route('/book-input',methods = ['POST', 'GET'])
+
+@app.route('/book-input')
+def bookInput():
+   return render_template('addrec.html')
+
+@app.route('/addrec',methods = ['POST', 'GET'])
 def addrec():
    if request.method == 'POST':
       try:
@@ -93,8 +98,10 @@ def addrec():
     #      msg = "error in insert operation"
       
       finally:
-         return render_template("addrec.html",msg = msg)
+         return render_template('results.html',msg = msg)
          con.close()
+
+    
 
 #------------------------------------------------------------------------------------------------
 
