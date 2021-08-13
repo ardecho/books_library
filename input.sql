@@ -1,0 +1,2 @@
+insert into books (id, author, title, publication_date, ISBN, pages, cover, lang)
+values (null, 'Bartosz Walaszek', 'Kapitan Bomba', datetime(current_timestamp), 'rhjaswgdh2w376e-3rfwfs', 69, 'https://img20.dmty.pl//uploads/201303/1364131753_0tcdux_600.jpg', 'PL');

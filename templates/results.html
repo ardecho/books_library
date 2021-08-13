@@ -1,0 +1,23 @@
+<html>
+    <head>
+    <!-- automatycznie przekazana informacja z konfiguracji aplikacji -->
+        <title>{{ config.SITE_NAME }}</title>
+    </head>
+    <body>
+        <h1>{{ config.SITE_NAME }}:</h1>
+        <ol>
+            <!-- wypisujemy kolejno wszystkie zdania -->
+            {% for entry in entries %}
+                <li>
+                    Autor: {{ entry.author }} <br>
+                    Tytuł: {{ entry.title }} <br> 
+                    Data publikacji: {{ entry.publication_date }} <br>
+                    ISBN: {{ entry.ISBN }} <br>
+                    Liczba stron: {{ entry.pages }} <br>
+                    Link do okładki: <a href={{ entry.cover }}>{{ entry.cover }}</a> <br>
+                    Język wydania: {{ entry.lang }}
+                </li>
+            {% endfor %}
+        </ol>
+    </body>
+</html>
