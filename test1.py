@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-from flask import Flask,g
 import os
 import sqlite3
+from flask import Flask,g
 from flask import render_template
+from flask import request
+
 
 app = Flask(__name__)
 
@@ -41,7 +43,6 @@ def close_db(error):
 
 
 
-
 # DEKORATORY
 @app.route('/')
 def index():
@@ -59,38 +60,40 @@ def bookList():
     return render_template('results.html', entries=entries)
 
 
-@app.route('/book-input')
-def bookInput():
-    db = get_db() # laczymy sie z baza
-    # pobieramy wszystkie wpisy z bazy:
-    cur = db.execute('select id, author, title, publication_date, ISBN, pages, cover, lang from books order by id desc;')
-    entries = cur.fetchall()
-    # renderujemy tempaltke i zwracamy ja do klienta
-    return render_template('results.html', entries=entries)
+
+# @app.route('/book-input')
+# def bookInput():
+#     db = get_db() # laczymy sie z baza
+#     # pobieramy wszystkie wpisy z bazy:
+#     cur = db.execute('select id, author, title, publication_date, ISBN, pages, cover, lang from books order by id desc;')
+#     entries = cur.fetchall()
+#     # renderujemy tempaltke i zwracamy ja do klienta
+#     return render_template('results.html', entries=entries)
 
 #-----------------------------------------------------------------------------------------------
-@app.route('/addrec',methods = ['POST', 'GET'])
+@app.route('/book-input',methods = ['POST', 'GET'])
 def addrec():
    if request.method == 'POST':
       try:
-         nm = request.form['nm']
-         addr = request.form['add']
-         city = request.form['city']
-         pin = request.form['pin']
+         author = request.form['author']
+         title = request.form['title']
+         publication_date = request.form['publication_date']
+         ISBN = request.form['ISBN']
+         pages  = request.form['pages']
+         cover = request.form['cover']
+         lang = request.form['lang']
          
-         with sql.connect("database.db") as con:
+         with get_db as con:
             cur = con.cursor()
-            cur.execute("INSERT INTO students (name,addr,city,pin) 
-               VALUES (?,?,?,?)",(nm,addr,city,pin) )
-            
+            cur.execute("INSERT INTO books (author, title, publication_date, ISBN, pages, cover, lang) VALUES (?,?,?,?,?,?,?)",(author, title, publication_date, ISBN, pages, cover, lang) )          
             con.commit()
             msg = "Record successfully added"
-      except:
-         con.rollback()
-         msg = "error in insert operation"
+    #   except:
+    #      con.rollback()
+    #      msg = "error in insert operation"
       
       finally:
-         return render_template("result.html",msg = msg)
+         return render_template("addrec.html",msg = msg)
          con.close()
 
 #------------------------------------------------------------------------------------------------
